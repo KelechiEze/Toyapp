@@ -1,0 +1,276 @@
+.hero {
+  padding: 8rem 2rem 4rem;
+  background: linear-gradient(to bottom, hsl(var(--background)), hsl(var(--muted)));
+}
+
+.hero-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.hero-main-card {
+  background: hsl(var(--teal));
+  border-radius: 1.5rem;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.hero-pattern {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  width: 100px;
+  height: 100px;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+  transform: translateY(-50%);
+}
+
+.hero-content {
+  flex: 1;
+  z-index: 1;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: white;
+  color: hsl(var(--teal));
+  padding: 0.4rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.025em;
+}
+
+.hero-title {
+  font-size: 3.25rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+
+.hero-description {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.hero-price-section {
+  margin-bottom: 2rem;
+}
+
+.hero-price {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.price-current {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: white;
+}
+
+.price-old {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: line-through;
+}
+
+.hero-btn {
+  background: white;
+  color: hsl(var(--teal));
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-smooth);
+}
+
+.hero-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hero-image-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-main-image {
+  max-width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.floating-toy {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  z-index: 0;
+}
+
+.toy-1 {
+  top: 10%;
+  right: 10%;
+}
+
+.toy-2 {
+  bottom: 15%;
+  left: 5%;
+}
+
+.hero-side-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.side-card {
+  border-radius: 1.5rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 235px;
+  margin-left: -70px;
+}
+
+.card-orange {
+  background: hsl(var(--orange));
+}
+
+.card-pink {
+  background: hsl(var(--pink));
+}
+
+.side-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.side-card-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.side-card-subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.side-card-btn {
+  background: white;
+  color: hsl(var(--foreground));
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-smooth);
+}
+
+.side-card-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.side-card-image {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 140px;
+  height: auto;
+  opacity: 0.95;
+}
+
+/* Mobile Styles */
+@media (max-width: 800px) {
+  .hero {
+    padding: 6rem 1.25rem 3rem;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-main-card {
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    min-height: auto;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  .price-current {
+    font-size: 2.5rem;
+  }
+
+  .price-old {
+    font-size: 1.25rem;
+  }
+
+  .hero-image-container {
+    margin-top: 2rem;
+  }
+
+  .hero-main-image {
+    max-width: 80%;
+  }
+
+  .floating-toy {
+    width: 60px;
+  }
+
+  .side-card-title {
+    font-size: 1.35rem;
+  }
+
+  .side-card-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .side-card-image {
+    width: 100px;
+  }
+}
