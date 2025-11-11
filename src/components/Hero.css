@@ -13,7 +13,12 @@
 }
 
 .hero-main-card {
-  background: hsl(var(--teal));
+  background: hsl(210 95% 50%); /* Direct vibrant blue */
+  /* OR for a lighter blue */
+  background: hsl(210 85% 60%);
+  /* OR for a softer blue */
+  background: hsl(210 80% 65%);
+  
   border-radius: 1.5rem;
   padding: 3rem;
   display: flex;

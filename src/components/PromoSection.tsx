@@ -22,32 +22,38 @@ const PromoSection = () => {
     });
   }, []);
 
+  const scrollToToys = () => {
+    const toysSection = document.getElementById("toys");
+    if (toysSection) {
+      toysSection.scrollIntoView({ 
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  };
+
   return (
     <section className="promo-section">
       <div className="promo-container" ref={sectionRef}>
         <div className="promo-content">
           <div className="promo-badge">
             <Flame size={18} />
-            <span>Limited Time Offer</span>
+            <span>Get Your Toys Here</span>
             <Flame size={18} />
           </div>
           <h2 className="promo-title">
-            Get 25% discount on all educational toys
+            Amazing Toys Waiting For You!
           </h2>
           <p className="promo-description">
-            Don't miss out on this amazing deal! Shop now and save big on your favorite toys.
+            Discover the perfect toys that will bring joy and creativity to your child's world. Your next favorite toy is just a click away!
           </p>
-          <button className="promo-btn">
-            See Collection
+          <button className="promo-btn" onClick={scrollToToys}>
+            Explore All Toys
             <ArrowRight size={18} />
           </button>
-          <div className="promo-discount-badge">
-            <span className="discount-number">25%</span>
-            <span className="discount-text">OFF</span>
-          </div>
         </div>
         <div className="promo-image-wrapper">
-          <img src="/pointgirl.png" alt="25% Discount Offer" className="promo-image" />
+          <img src="/pointgirl.png" alt="Amazing Toys Collection" className="promo-image" />
         </div>
       </div>
     </section>

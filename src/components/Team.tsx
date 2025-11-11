@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Instagram, Linkedin, MessageCircle } from "lucide-react";
+import { Instagram, Facebook, MessageCircle } from "lucide-react";
 import "./Team.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +13,7 @@ interface TeamMember {
   image: string;
   social: {
     whatsapp: string;
-    linkedin: string;
+    facebook: string;
     instagram: string;
   };
 }
@@ -28,9 +28,9 @@ const Team = () => {
       role: "Founder & CEO",
       image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400",
       social: {
-        whatsapp: "https://wa.me/1234567890",
-        linkedin: "https://linkedin.com",
-        instagram: "https://instagram.com",
+        whatsapp: "https://wa.me/2349012345678", // Chioma's WhatsApp
+        facebook: "https://facebook.com/chioma.adeyemi", // Chioma's Facebook
+        instagram: "https://instagram.com/chioma_adeyemi", // Chioma's Instagram
       },
     },
     {
@@ -39,9 +39,9 @@ const Team = () => {
       role: "Toy Specialist",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
       social: {
-        whatsapp: "https://wa.me/1234567890",
-        linkedin: "https://linkedin.com",
-        instagram: "https://instagram.com",
+        whatsapp: "https://wa.me/2349023456789", // Tunde's WhatsApp
+        facebook: "https://facebook.com/tunde.okafor", // Tunde's Facebook
+        instagram: "https://instagram.com/tunde_okafor", // Tunde's Instagram
       },
     },
     {
@@ -50,9 +50,9 @@ const Team = () => {
       role: "Customer Care",
       image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400",
       social: {
-        whatsapp: "https://wa.me/1234567890",
-        linkedin: "https://linkedin.com",
-        instagram: "https://instagram.com",
+        whatsapp: "https://wa.me/2349034567890", // Amina's WhatsApp
+        facebook: "https://facebook.com/amina.yusuf", // Amina's Facebook
+        instagram: "https://instagram.com/amina_yusuf", // Amina's Instagram
       },
     },
     {
@@ -61,9 +61,9 @@ const Team = () => {
       role: "Delivery Manager",
       image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400",
       social: {
-        whatsapp: "https://wa.me/1234567890",
-        linkedin: "https://linkedin.com",
-        instagram: "https://instagram.com",
+        whatsapp: "https://wa.me/2349045678901", // Emeka's WhatsApp
+        facebook: "https://facebook.com/emeka.nwosu", // Emeka's Facebook
+        instagram: "https://instagram.com/emeka_nwosu", // Emeka's Instagram
       },
     },
   ];
@@ -111,26 +111,26 @@ const Team = () => {
                       href={member.social.whatsapp}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="team-social-link"
-                      aria-label="WhatsApp"
+                      className="team-social-link whatsapp"
+                      aria-label={`Chat with ${member.name} on WhatsApp`}
                     >
                       <MessageCircle size={20} />
                     </a>
                     <a
-                      href={member.social.linkedin}
+                      href={member.social.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="team-social-link"
-                      aria-label="LinkedIn"
+                      className="team-social-link facebook"
+                      aria-label={`Connect with ${member.name} on Facebook`}
                     >
-                      <Linkedin size={20} />
+                      <Facebook size={20} />
                     </a>
                     <a
                       href={member.social.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="team-social-link"
-                      aria-label="Instagram"
+                      className="team-social-link instagram"
+                      aria-label={`Follow ${member.name} on Instagram`}
                     >
                       <Instagram size={20} />
                     </a>

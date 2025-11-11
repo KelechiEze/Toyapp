@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import Preloader from "../components/Preloader";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import CryptoTicker from "../components/CryptoTicker";
 import About from "../components/About";
 import Features from "../components/Features";
 import Toys, { ToysRef } from "../components/Toys";
@@ -31,6 +32,7 @@ const Index = () => {
         <div className="min-h-screen bg-background">
           <Navbar onSearch={handleSearch} />
           <Hero />
+          <CryptoTicker />
           <About />
           <Features />
           <Toys ref={toysRef} />
