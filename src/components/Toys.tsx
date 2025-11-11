@@ -28,7 +28,7 @@ const Toys = forwardRef<ToysRef>((props, ref) => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const toysSectionRef = useRef<HTMLDivElement>(null);
 
-  const whatsappNumber = "2348012345678";
+  const whatsappNumber = "2347030346947";
 
   const toys: Toy[] = [
     {

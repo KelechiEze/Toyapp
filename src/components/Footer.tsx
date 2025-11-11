@@ -10,8 +10,8 @@ const Footer = () => {
         <div className="footer-grid">
           <div className="footer-column">
             <div className="footer-logo">
-              <span className="logo-text">Toy</span>
-              <span className="logo-accent">up</span>
+              <span className="logo-text">Toys</span>
+              <span className="logo-accent">Place</span>
             </div>
             <p className="footer-description">
               Bringing joy to children through quality toys. Creating magical childhood moments that last a lifetime.

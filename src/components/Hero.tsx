@@ -8,7 +8,7 @@ const Hero = () => {
   const mainCardRef = useRef<HTMLDivElement>(null);
   const sideCard1Ref = useRef<HTMLDivElement>(null);
   const sideCard2Ref = useRef<HTMLDivElement>(null);
-  const floatingToysRef = useRef<HTMLDivElement[]>([]);
+  const floatingToysRef = useRef<HTMLImageElement[]>([]);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.5 });
@@ -57,6 +57,16 @@ const Hero = () => {
     }
   };
 
+  const scrollToToys = () => {
+    const toysSection = document.getElementById("toys");
+    if (toysSection) {
+      toysSection.scrollIntoView({ 
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  };
+
   return (
     <section id="home" className="hero" ref={heroRef}>
       <div className="hero-container">
@@ -75,14 +85,14 @@ const Hero = () => {
                 <span className="price-old">₦29,500</span>
               </div>
             </div>
-            <button className="hero-btn">
+            <button className="hero-btn" onClick={scrollToToys}>
               Shop Now
               <ArrowRight size={18} />
             </button>
           </div>
           <div className="hero-image-container">
             <img
-              src="/hero1.png"
+              src="/wow.png"
               alt="Happy child with toy"
               className="hero-main-image"
             />
@@ -107,7 +117,7 @@ const Hero = () => {
             <div className="side-card-content">
               <h3 className="side-card-title">Educational Toy Set</h3>
               <p className="side-card-subtitle">Discover Amazing Offers!</p>
-              <button className="side-card-btn">
+              <button className="side-card-btn" onClick={scrollToToys}>
                 See Collection
                 <ArrowRight size={16} />
               </button>
@@ -119,7 +129,7 @@ const Hero = () => {
             <div className="side-card-content">
               <h3 className="side-card-title">Children's Day Collection</h3>
               <p className="side-card-subtitle">15% OFF on Kids' Toys and Gifts!</p>
-              <button className="side-card-btn">
+              <button className="side-card-btn" onClick={scrollToToys}>
                 See Collection
                 <ArrowRight size={16} />
               </button>
