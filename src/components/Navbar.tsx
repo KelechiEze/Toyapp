@@ -50,7 +50,7 @@ const Navbar = ({ onSearch }: NavbarProps) => {
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
         <a href="#home" className="navbar-logo" onClick={(e) => scrollToSection(e, "#home")}>
-          <span className="logo-text">Toy</span>
+          <span className="logo-text1">Toy</span>
           <span className="logo-accent">up</span>
         </a>
 

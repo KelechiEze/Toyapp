@@ -224,6 +224,7 @@
 
   .hero-container {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .hero-main-card {
@@ -231,6 +232,7 @@
     padding: 2rem 1.5rem;
     min-height: auto;
     text-align: center;
+    margin-bottom: 0;
   }
 
   .hero-title {
@@ -262,15 +264,93 @@
     width: 60px;
   }
 
+  .hero-side-cards {
+    gap: 1.5rem;
+    margin-top: 0;
+  }
+
+  .side-card {
+    margin-left: 0;
+    min-height: 180px;
+    padding: 1.5rem;
+    text-align: left;
+  }
+
   .side-card-title {
     font-size: 1.35rem;
+    margin-bottom: 0.5rem;
   }
 
   .side-card-subtitle {
     font-size: 0.85rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .side-card-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
   }
 
   .side-card-image {
     width: 100px;
+    right: 0.5rem;
+    bottom: 0.5rem;
+  }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  .hero {
+    padding: 5rem 1rem 2rem;
+  }
+
+  .hero-main-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-description {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .price-current {
+    font-size: 2rem;
+  }
+
+  .price-old {
+    font-size: 1.1rem;
+  }
+
+  .hero-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .side-card {
+    min-height: 160px;
+    padding: 1.25rem;
+  }
+
+  .side-card-title {
+    font-size: 1.2rem;
+  }
+
+  .side-card-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .side-card-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .side-card-image {
+    width: 80px;
   }
 }

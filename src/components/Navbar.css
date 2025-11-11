@@ -32,8 +32,8 @@
   gap: 0.25rem;
 }
 
-.logo-text {
-  color: hsl(var(--navy));
+.logo-text1 {
+  color: hsl(240 60% 12%);;
 }
 
 .logo-accent {
@@ -172,7 +172,7 @@
 /* Mobile Styles */
 @media (max-width: 800px) {
   .navbar-container {
-    padding: 1rem 1.25rem;
+    padding: 0.8rem 1.25rem;
     flex-wrap: wrap;
   }
 
@@ -193,7 +193,8 @@
   }
 
   .mobile-search-container .search-input {
-    width: 100%;
+    width: 87%;
+    margin-top: -12px;
   }
 
   .menu-toggle {
