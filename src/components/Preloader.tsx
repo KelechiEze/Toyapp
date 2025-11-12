@@ -1,471 +1,215 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import "./Preloader.css";
+"use client";
 
-interface PreloaderProps {
-  onComplete: () => void;
-}
+import React, { useState, useEffect, useRef } from 'react';
+import './Preloader.css';
+import AnimatedLogo from './AnimatedLogo';
+import ProgressBar from './ProgressBar';
+import ParticleEffect from './ParticleEffect';
+import { gsap } from 'gsap';
 
-const Preloader = ({ onComplete }: PreloaderProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const blocksContainerRef = useRef<HTMLDivElement>(null);
-  const charactersRef = useRef<HTMLDivElement[]>([]);
-  const textRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<HTMLDivElement[]>([]);
-  const confettiRef = useRef<HTMLDivElement[]>([]);
-  const sparklesRef = useRef<HTMLDivElement[]>([]);
-  const buildingBlocksRef = useRef<HTMLDivElement[]>([]);
+const Preloader = ({ onComplete }: { onComplete?: () => void }) => {
+  const [isAnimating, setIsAnimating] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const toysRef = useRef<HTMLSpanElement>(null);
+  const dashRef = useRef<HTMLSpanElement>(null);
+  const placeRef = useRef<HTMLSpanElement>(null);
+  const subtitleRef = useRef<HTMLSpanElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const dotsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Auto-complete after 6 seconds
-    const timeout = setTimeout(() => {
-      onComplete();
-    }, 6000);
+    if (!isAnimating || !overlayRef.current) return;
 
-    const tl = gsap.timeline({
-      defaults: { ease: "power3.out" }
+    console.log('Preloader started - debugging');
+
+    // Reset all elements to initial state
+    gsap.set(overlayRef.current, { opacity: 1 });
+    gsap.set(contentRef.current, { opacity: 0, y: 50 });
+    gsap.set([toysRef.current, dashRef.current, placeRef.current], { 
+      opacity: 0, 
+      y: 100 
     });
+    gsap.set(subtitleRef.current, { opacity: 0 });
+    gsap.set(logoRef.current, { opacity: 0, scale: 0.8 });
+    gsap.set(".preloader-loading-dots span", { opacity: 0, scale: 0 });
 
-    // Initial blocks flying in from different 3D directions
-    buildingBlocksRef.current.forEach((block, index) => {
-      const row = Math.floor(index / 4);
-      const col = index % 4;
-      
-      // Set initial positions in 3D space (far away)
-      gsap.set(block, {
-        x: gsap.utils.random(-1000, 1000),
-        y: gsap.utils.random(-800, 800),
-        z: gsap.utils.random(-1500, -500),
-        rotationX: gsap.utils.random(-720, 720),
-        rotationY: gsap.utils.random(-720, 720),
-        rotationZ: gsap.utils.random(-360, 360),
-        scale: 0,
-        opacity: 0
-      });
+    const tl = gsap.timeline();
 
-      // Blocks fly in and assemble with realistic physics
-      tl.to(block, {
-        x: (col - 1.5) * 60,
-        y: (row - 1.5) * 60,
-        z: 0,
-        rotationX: 0,
-        rotationY: 0,
-        rotationZ: 0,
-        scale: 1,
-        opacity: 1,
-        duration: 1.2,
-        ease: "back.out(1.5)",
-        delay: index * 0.08
-      }, index * 0.06);
-
-      // Individual block bounce when they land
-      tl.to(block, {
-        y: `-=${gsap.utils.random(15, 30)}`,
-        duration: 0.3,
-        ease: "power1.out",
-        yoyo: true,
-        repeat: 1
-      }, `+=${0.1 + index * 0.01}`);
-    });
-
-    // Blocks form complete structure with interlocking animation
-    tl.to(buildingBlocksRef.current, {
-      rotationY: 360,
-      duration: 2,
-      stagger: {
-        each: 0.03,
-        from: "center"
-      },
-      ease: "power2.inOut"
-    }, "+=0.3");
-
-    // Blocks pulse with color to show connection
-    tl.to(buildingBlocksRef.current, {
-      boxShadow: "0 0 30px currentColor",
-      duration: 0.4,
-      stagger: 0.02,
-      yoyo: true,
-      repeat: 2,
-      ease: "sine.inOut"
-    }, "+=0.2");
-
-    // Characters emerge from within the block structure
-    charactersRef.current.forEach((char, index) => {
-      // Start characters inside blocks
-      gsap.set(char, {
-        scale: 0.5,
-        y: 50,
-        z: -100,
-        rotationY: 180,
-        opacity: 0
-      });
-
-      // Characters pop out with spring effect
-      tl.to(char, {
-        scale: 1,
-        y: 0,
-        z: 0,
-        rotationY: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "elastic.out(1.2, 0.6)",
-        delay: index * 0.2
-      }, "-=0.5");
-
-      // Characters dance on their blocks
-      tl.to(char, {
-        y: -40,
-        rotation: index % 2 === 0 ? 20 : -20,
-        duration: 0.5,
-        ease: "power1.inOut",
-        yoyo: true,
-        repeat: 2,
-      }, `+=${index * 0.1}`);
-
-      // Character glow effects
-      tl.to(char, {
-        boxShadow: "0 0 60px currentColor",
-        duration: 0.5,
-        yoyo: true,
-        repeat: 1,
-      }, "-=0.4");
-    });
-
-    // Blocks reconfigure around characters
-    tl.to(buildingBlocksRef.current, {
-      x: (i) => {
-        const row = Math.floor(i / 4);
-        const col = i % 4;
-        const charIndex = Math.floor(i / 4);
-        return (col - 1.5) * 80 + gsap.utils.random(-10, 10);
-      },
-      y: (i) => {
-        const row = Math.floor(i / 4);
-        return (row - 1.5) * 80 + gsap.utils.random(-5, 5);
-      },
-      z: (i) => gsap.utils.random(-20, 20),
-      rotationY: (i) => gsap.utils.random(-30, 30),
-      rotationX: (i) => gsap.utils.random(-15, 15),
+    // Main animation sequence
+    tl.to(contentRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power2.out"
+    })
+    .to(toysRef.current, {
+      opacity: 1,
+      y: 0,
       duration: 1.2,
-      stagger: 0.02,
-      ease: "elastic.out(1, 0.8)"
-    }, "+=0.3");
-
-    // Text builds up letter by letter with block-like effect
-    const text = textRef.current;
-    if (text) {
-      const letters = text.textContent?.split('') || [];
-      text.innerHTML = letters.map(letter => 
-        `<span class="text-block">${letter}</span>`
-      ).join('');
-
-      gsap.set('.text-block', {
-        display: 'inline-block',
-        y: 100,
-        rotationX: -90,
-        opacity: 0
-      });
-
-      tl.to('.text-block', {
-        y: 0,
-        rotationX: 0,
-        opacity: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "back.out(1.7)"
-      }, "-=0.5");
-    }
-
-    // Text color wave animation
-    tl.to(textRef.current, {
-      backgroundPosition: "200% 0%",
-      duration: 3,
-      ease: "sine.inOut",
-      repeat: -1
-    }, "-=0.3");
-
-    // Massive particle explosion from block structure
-    particlesRef.current.forEach((particle, index) => {
-      // Start particles at block positions
-      const blockIndex = index % buildingBlocksRef.current.length;
-      const block = buildingBlocksRef.current[blockIndex];
-      const rect = block?.getBoundingClientRect();
-      
-      if (rect) {
-        gsap.set(particle, {
-          x: rect.left + rect.width / 2 - window.innerWidth / 2,
-          y: rect.top + rect.height / 2 - window.innerHeight / 2,
-          z: 0,
-          scale: 0,
-          opacity: 0
-        });
-      }
-
-      tl.to(particle, {
-        x: gsap.utils.random(-1000, 1000),
-        y: gsap.utils.random(-800, 800),
-        z: gsap.utils.random(-500, 500),
-        rotation: gsap.utils.random(0, 1080),
-        scale: 1,
-        opacity: 1,
-        duration: 2,
-        ease: "power2.out",
-        stagger: 0.01,
-      }, "-=1");
-
-      // Particles bounce like they have weight
-      tl.to(particle, {
-        y: "+=40",
-        duration: 0.8,
-        yoyo: true,
-        repeat: 1,
-        ease: "bounce.out",
-      }, "-=1.5");
-    });
-
-    // Sparkles burst from block connections
-    sparklesRef.current.forEach((sparkle, index) => {
-      const blockIndex = index % buildingBlocksRef.current.length;
-      const block = buildingBlocksRef.current[blockIndex];
-      const rect = block?.getBoundingClientRect();
-      
-      if (rect) {
-        gsap.set(sparkle, {
-          x: rect.left + rect.width / 2 - window.innerWidth / 2,
-          y: rect.top + rect.height / 2 - window.innerHeight / 2,
-          z: 50,
-          scale: 0,
-          opacity: 0
-        });
-      }
-
-      tl.to(sparkle, {
-        scale: 1,
-        opacity: 1,
-        z: 200,
-        duration: 0.6,
-        stagger: 0.02,
-        ease: "power2.out"
-      }, "-=1.2");
-
-      tl.to(sparkle, {
-        scale: 0,
-        opacity: 0,
-        z: 400,
-        duration: 0.5,
-        stagger: 0.015,
-        ease: "power2.in"
-      }, "+=0.2");
-    });
-
-    // Confetti explosion from the structure
-    confettiRef.current.forEach((confetti, index) => {
-      tl.fromTo(confetti,
-        {
-          y: -50,
-          z: -100,
-          rotation: 0,
-          opacity: 0,
-          scale: 0
-        },
-        {
-          y: 1200,
-          z: gsap.utils.random(-200, 200),
-          rotation: gsap.utils.random(1440, 2880),
-          opacity: 1,
-          scale: 1,
-          duration: gsap.utils.random(2.5, 4),
-          ease: "power1.in",
-          stagger: 0.015,
-        },
-        "-=0.8"
-      );
-    });
-
-    // Final epic transformation - blocks fly out to form logo
-    tl.to(buildingBlocksRef.current, {
-      x: (i) => {
-        const angle = (i / buildingBlocksRef.current.length) * Math.PI * 2;
-        return Math.cos(angle) * 400;
-      },
-      y: (i) => {
-        const angle = (i / buildingBlocksRef.current.length) * Math.PI * 2;
-        return Math.sin(angle) * 300;
-      },
-      z: (i) => gsap.utils.random(-300, 300),
-      rotationY: 1080,
-      rotationX: 360,
-      scale: 1.5,
-      duration: 1.5,
-      stagger: 0.02,
-      ease: "power2.out",
-    }, "+=0.5");
-
-    // Characters jump to center and wave goodbye
-    tl.to(charactersRef.current, {
-      x: 0,
-      y: -150,
-      scale: 1.2,
-      rotationY: 180,
+      ease: "back.out(2.5)"
+    }, "+=0.2")
+    .to(dashRef.current, {
+      opacity: 1,
+      y: 0,
       duration: 0.8,
-      stagger: 0.1,
-      ease: "power2.out",
-    }, "-=1.2");
+      ease: "power2.out"
+    }, "-=0.5")
+    .to(placeRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: "back.out(2.5)",
+      onComplete: () => {
+        setShowSubtitle(true);
+      }
+    }, "-=0.8")
+    .to(logoRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 1,
+      ease: "elastic.out(1.2, 0.8)"
+    }, "-=0.5")
+    .add(() => {
+      // Start subtitle typewriter effect after TOYS-PLACE is fully visible
+      if (showSubtitle) {
+        typewriterSubtitle();
+      }
+    }, "-=0.3")
+    .to(".preloader-loading-dots span", {
+      opacity: 1,
+      scale: 1,
+      duration: 0.6,
+      stagger: 0.2,
+      ease: "back.out(2)"
+    }, "-=0.2")
+    .add(() => {
+      // Start progress animation
+      startProgressAnimation();
+    });
 
-    tl.to(charactersRef.current, {
-      rotationY: 0,
-      duration: 0.3,
-      stagger: 0.05,
-    }, "-=0.5");
+  }, [isAnimating]);
 
-    // Final collapse into center
-    tl.to([...buildingBlocksRef.current, ...charactersRef.current], {
+  const typewriterSubtitle = () => {
+    const subtitle = "Where Imagination Comes to Play!";
+    const subtitleElement = subtitleRef.current;
+    
+    if (!subtitleElement) return;
+
+    // Clear any existing content
+    subtitleElement.textContent = '';
+    gsap.set(subtitleElement, { opacity: 1 });
+
+    const chars = subtitle.split('');
+    const tl = gsap.timeline();
+
+    chars.forEach((char, index) => {
+      tl.to(subtitleElement, {
+        duration: 0,
+        onComplete: () => {
+          subtitleElement.textContent += char;
+        }
+      }, index * 0.05); // 50ms between characters for smooth typewriter effect
+    });
+  };
+
+  const startProgressAnimation = () => {
+    let currentProgress = 0;
+    const interval = setInterval(() => {
+      currentProgress += 2;
+      setProgress(currentProgress);
+      
+      if (currentProgress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          exitAnimation();
+        }, 500);
+      }
+    }, 60);
+  };
+
+  const exitAnimation = () => {
+    const tl = gsap.timeline();
+    
+    tl.to(".preloader-loading-dots span", {
+      opacity: 0,
       scale: 0,
-      rotationY: 180,
+      duration: 0.4,
+      stagger: 0.1
+    })
+    .to(subtitleRef.current, {
+      opacity: 0,
+      y: -10,
+      duration: 0.5
+    }, "-=0.3")
+    .to([toysRef.current, dashRef.current, placeRef.current], {
+      opacity: 0,
+      y: -50,
+      duration: 0.8,
+      stagger: 0.1
+    }, "-=0.4")
+    .to(logoRef.current, {
+      opacity: 0,
+      scale: 0.5,
+      duration: 0.6
+    }, "-=0.5")
+    .to(contentRef.current, {
+      opacity: 0,
+      y: -30,
+      duration: 0.8
+    }, "-=0.3")
+    .to(overlayRef.current, {
       opacity: 0,
       duration: 1,
-      stagger: 0.01,
-      ease: "power2.in",
-    }, "+=0.5");
-
-    return () => clearTimeout(timeout);
-  }, [onComplete]);
-
-  const addToRefs = (el: HTMLDivElement | null, refArray: React.MutableRefObject<HTMLDivElement[]>) => {
-    if (el && !refArray.current.includes(el)) {
-      refArray.current.push(el);
-    }
-  };
-
-  const createBuildingBlocks = () => {
-    const blocks = [];
-    for (let row = 0; row < 4; row++) {
-      for (let col = 0; col < 4; col++) {
-        blocks.push(
-          <div
-            key={`block-${row}-${col}`}
-            ref={(el) => addToRefs(el, buildingBlocksRef)}
-            className={`building-block block-${row}-${col} block-color-${(row + col) % 4}`}
-          >
-            <div className="block-face block-front"></div>
-            <div className="block-face block-back"></div>
-            <div className="block-face block-left"></div>
-            <div className="block-face block-right"></div>
-            <div className="block-face block-top"></div>
-            <div className="block-face block-bottom"></div>
-            <div className="block-connector"></div>
-          </div>
-        );
+      onComplete: () => {
+        setIsAnimating(false);
+        onComplete?.();
       }
-    }
-    return blocks;
+    });
   };
 
-  const createParticles = () => {
-    return Array.from({ length: 120 }, (_, i) => (
-      <div
-        key={`particle-${i}`}
-        ref={(el) => addToRefs(el, particlesRef)}
-        className={`particle particle-${i % 12}`}
-      />
-    ));
-  };
-
-  const createConfetti = () => {
-    return Array.from({ length: 80 }, (_, i) => (
-      <div
-        key={`confetti-${i}`}
-        ref={(el) => addToRefs(el, confettiRef)}
-        className={`confetti confetti-${i % 12}`}
-      />
-    ));
-  };
-
-  const createSparkles = () => {
-    return Array.from({ length: 60 }, (_, i) => (
-      <div
-        key={`sparkle-${i}`}
-        ref={(el) => addToRefs(el, sparklesRef)}
-        className={`sparkle sparkle-${i % 8}`}
-      />
-    ));
-  };
+  if (!isAnimating) return null;
 
   return (
-    <div ref={containerRef} className="preloader">
-      {/* Animated Geometric Background */}
-      <div className="geometric-bg">
-        <div className="geo-shape geo-1"></div>
-        <div className="geo-shape geo-2"></div>
-        <div className="geo-shape geo-3"></div>
-        <div className="geo-shape geo-4"></div>
-      </div>
+    <div 
+      ref={overlayRef}
+      className="preloader-overlay"
+    >
+      <ParticleEffect />
+      <div className="preloader-background"></div>
 
-      {/* 3D Building Blocks Container */}
-      <div ref={blocksContainerRef} className="building-blocks-container">
-        {createBuildingBlocks()}
-      </div>
-
-      {/* Main Content */}
-      <div className="preloader-content">
-        {/* Animated Characters */}
-        <div className="characters-container">
-          <div ref={(el) => addToRefs(el, charactersRef)} className="character character-1">
-            <div className="character-face">
-              <div className="eye"></div>
-              <div className="eye"></div>
-              <div className="mouth laughing"></div>
-            </div>
-            <div className="character-glow"></div>
-            <div className="character-shadow"></div>
-          </div>
-          <div ref={(el) => addToRefs(el, charactersRef)} className="character character-2">
-            <div className="character-face">
-              <div className="eye"></div>
-              <div className="eye"></div>
-              <div className="mouth happy"></div>
-            </div>
-            <div className="character-glow"></div>
-            <div className="character-shadow"></div>
-          </div>
-          <div ref={(el) => addToRefs(el, charactersRef)} className="character character-3">
-            <div className="character-face">
-              <div className="eye"></div>
-              <div className="eye"></div>
-              <div className="mouth surprised"></div>
-            </div>
-            <div className="character-glow"></div>
-            <div className="character-shadow"></div>
-          </div>
-          <div ref={(el) => addToRefs(el, charactersRef)} className="character character-4">
-            <div className="character-face">
-              <div className="eye"></div>
-              <div className="eye"></div>
-              <div className="mouth excited"></div>
-            </div>
-            <div className="character-glow"></div>
-            <div className="character-shadow"></div>
-          </div>
+      <div ref={contentRef} className="preloader-content">
+        <div ref={logoRef} className="preloader-logo-section">
+          <AnimatedLogo show={true} />
         </div>
 
-        {/* Animated Text */}
-        <div ref={textRef} className="preloader-text">
-          BUILDING FUN!
+        <div className="preloader-text-container">
+          <span ref={toysRef} className="preloader-letter toys-text">
+            TOYS
+          </span>
+          <span ref={dashRef} className="preloader-letter dash">
+            -
+          </span>
+          <span ref={placeRef} className="preloader-letter place-text">
+            PLACE
+          </span>
         </div>
 
-        {/* Particles */}
-        <div className="particles-container">
-          {createParticles()}
+        <div className="preloader-subtitle">
+          <span ref={subtitleRef} className="subtitle-text">
+            {/* Text will be added by typewriter effect */}
+          </span>
         </div>
 
-        {/* Sparkles */}
-        <div className="sparkles-container">
-          {createSparkles()}
-        </div>
+        <ProgressBar progress={progress} />
 
-        {/* Confetti */}
-        <div className="confetti-container">
-          {createConfetti()}
+        <div ref={dotsRef} className="preloader-loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
     </div>
