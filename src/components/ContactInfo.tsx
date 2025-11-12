@@ -39,9 +39,9 @@ const ContactInfo = () => {
             </div>
             <h3 className="contact-info-heading">Visit Us</h3>
             <p className="contact-info-text">
-              15 Awolowo Road, Ikoyi
+              No. 324, Taiwo Road , Newlayout
               <br />
-              Lagos, Nigeria
+              Kogi State, Nigeria
             </p>
           </div>
 
@@ -51,9 +51,9 @@ const ContactInfo = () => {
             </div>
             <h3 className="contact-info-heading">Call Us</h3>
             <p className="contact-info-text">
-              +234 801 234 5678
+              +234 803 285 5075
               <br />
-              +234 802 345 6789
+              +234 815 235 6307
             </p>
           </div>
 
@@ -63,7 +63,7 @@ const ContactInfo = () => {
             </div>
             <h3 className="contact-info-heading">Email Us</h3>
             <p className="contact-info-text">
-              info@toyup.ng
+              janetbako50@gmail.com
               <br />
               support@toyup.ng
             </p>
